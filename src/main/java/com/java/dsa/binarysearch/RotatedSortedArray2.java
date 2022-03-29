@@ -33,7 +33,9 @@ public class RotatedSortedArray2 {
 		// sorted array >> apply BS
         // step1: find pivot index (smallest in array)
         // step2: apply BS either in [0,pivot-1] or [pivot,L-1]
-		int pivot = findPivotIndex(nums);
+		
+		/*
+		int pivot = findPivotIndexS(nums);
         System.out.println("pivot :: "+pivot);
         if(pivot==0)
             return binarySearch(nums,0,nums.length-1, target);
@@ -42,7 +44,12 @@ public class RotatedSortedArray2 {
             return binarySearch(nums,0,pivot-1, target);
         }else{
             return binarySearch(nums,pivot,nums.length-1, target);
-        }        
+        } 
+        */
+		int pivot = findPivotIndexL(nums);
+		System.out.println("pivot :: "+pivot);
+		
+		return -1;
 	}
 	
 	private static int binarySearch(int[] arr, int start, int end, int target) {
@@ -65,7 +72,7 @@ public class RotatedSortedArray2 {
 		return -1;
 	}
 
-	private static int findPivotIndex(int[] arr) {
+	private static int findPivotIndexS(int[] arr) {
 		
 		// pivot index (smallest in array)
 		int start=0;
@@ -80,6 +87,26 @@ public class RotatedSortedArray2 {
 				// [normal] mid value < end value
 				// then, smallest value will present left half
 				end=mid;
+			}
+		}
+		return start;
+	}
+	
+	private static int findPivotIndexL(int[] arr) {
+		
+		// pivot index (largest in array)
+		int start=0;
+		int end=arr.length-1;
+		while(start<end) {
+			int mid=start+(end-start)/2;
+			if(arr[mid]>arr[end]) { 
+				// [weird] mid value > end value
+				// then, smallest value will present right half
+				start=mid;
+			}else {
+				// [normal] mid value < end value
+				// then, smallest value will present left half
+				end=mid-1;
 			}
 		}
 		return start;
